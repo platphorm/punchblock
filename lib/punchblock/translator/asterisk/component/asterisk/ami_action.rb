@@ -35,7 +35,6 @@ module Punchblock
             def success_reason(response, final_event = nil)
               headers = response.headers
               headers.merge! final_event.headers if final_event
-              headers.delete 'ActionID'
               Punchblock::Component::Asterisk::AMI::Action::Complete::Success.new message: headers.delete('Message'), text_body: response.text_body, headers: headers
             end
 
@@ -49,7 +48,6 @@ module Punchblock
 
             def pb_event_from_ami_event(ami_event)
               headers = ami_event.headers
-              headers.delete 'ActionID'
               Event::Asterisk::AMI::Event.new name: ami_event.name, headers: headers
             end
 
